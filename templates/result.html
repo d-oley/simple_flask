@@ -2,6 +2,11 @@
 {% block content %}
   <h1>Результат</h1>
   <p class="hint">
+    {% if company %}
+    Компания: <b>{{ company.name }}</b> ({{ company.ticker }}) ·
+    {% else %}
+    Компания: <b>пользовательский FIGI</b> ·
+    {% endif %}
     FIGI / instrument_id: <b>{{ instrument_id }}</b> ·
     дней: <b>{{ days_back }}</b> ·
     интервал: <b>{{ interval }}</b> ·

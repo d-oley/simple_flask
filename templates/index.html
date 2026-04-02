@@ -1,11 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Свечи по FIGI / instrument_id</h1>
+  <h1>Свечи крупнейших компаний РФ</h1>
   <p class="hint">SDK: <b>{{ sdk }}</b></p>
 
   <form method="post" action="/run" class="card">
-    <label>FIGI / instrument_id</label>
-    <input name="instrument_id" value="{{ default_instrument_id }}" required>
+    <label>FIGI вручную</label>
+    <input name="instrument_id" placeholder="Например, BBG004730N88">
+    <p class="hint">Если поле заполнено, будет использован этот FIGI.</p>
+
+    <label>Компания</label>
+    <select name="selected_instrument_id">
+      {% for company in companies %}
+        <option value="{{ company.figi }}" {% if company.figi == default_instrument_id %}selected{% endif %}>
+          {{ company.name }} ({{ company.ticker }})
+        </option>
+      {% endfor %}
+    </select>
+    <p class="hint">Если ручной FIGI пустой, будет использовано значение из списка.</p>
 
     <label>Дней назад</label>
     <input name="days_back" type="number" min="1" max="365" value="{{ default_days }}" required>
