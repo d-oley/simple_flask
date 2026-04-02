@@ -6,8 +6,12 @@ from io import BytesIO
 import base64
 from typing import Iterable, Optional
 
+import matplotlib
 import pandas as pd
+matplotlib.use("Agg")
+
 import mplfinance as mpf
+from matplotlib import pyplot as plt
 
 from models import Candle
 
@@ -129,10 +133,13 @@ def candles_to_dataframe(candles: list[Candle]) -> pd.DataFrame:
 def plot_candles_base64(df: pd.DataFrame) -> str:
     """Строим свечной график и возвращаем PNG как base64 строку."""
     buf = BytesIO()
-    mpf.plot(df, type="candle", volume=True, style="charles", savefig=buf)
-    buf.seek(0)
-    b64 = base64.b64encode(buf.read()).decode("ascii")
-    return f"data:image/png;base64,{b64}"
+    try:
+        mpf.plot(df, type="candle", volume=True, style="charles", savefig=buf)
+        buf.seek(0)
+        b64 = base64.b64encode(buf.read()).decode("ascii")
+        return f"data:image/png;base64,{b64}"
+    finally:
+        plt.close("all")
 
 
 def sdk_name() -> str:
