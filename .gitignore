@@ -1,9 +1,5 @@
 # Виртуальное окружение
-venv/
-env/
-ENV/
-env.bak/
-venv.bak/
+.venv/
 
 # Секретные файлы
 app_secrets.py
